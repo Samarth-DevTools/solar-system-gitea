@@ -4,14 +4,11 @@ pipeline {
     tools {
         nodejs 'nodejs-24-1-0'
     }
-    
+
     stages{
-        stage('VM node Version') {
+        stage('Installing Deps') {
             steps {
-                sh '''
-                    node -v
-                    npm -v
-                '''
+                sh 'npm install --no-audit'
             }
         }
     }
