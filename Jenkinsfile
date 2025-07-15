@@ -20,7 +20,7 @@ pipeline {
             }
         }
         stage('OWASP Dep check') {
-            steps 
+            steps {
                 dependencyCheck additionalArguments: '''
                 --scan \'./\'
                 --out \'./\'
