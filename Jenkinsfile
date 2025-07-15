@@ -19,5 +19,14 @@ pipeline {
                 '''
             }
         }
+        stage('OWASP Dep check') {
+            steps 
+                dependencyCheck additionalArguments: '''
+                --scan \'./\'
+                --out \'./\'
+                --format \'ALL\'
+                --prettyPrint''', odcInstallation: 'OWASP-depcheck-10'
+            }
+        }
     }
 }
