@@ -22,13 +22,14 @@ pipeline {
                         '''
                     }
                 }
-                stage('OWASP Dep check') {
+                stage('OWASP Dependency Check') {
                     steps {
                         dependencyCheck additionalArguments: '''
-                            --scan \\\'./\\\'
-                            --out \\\'./\\\'
-                            --format \\\'ALL\\\'
-                            --prettyPrint''', odcInstallation: 'OWASP-depcheck-10'
+                            --scan ./ \
+                            --out ./ \
+                            --format ALL \
+                            --prettyPrint
+                        ''', odcInstallation: 'OWASP-depcheck-12'
                     }      
                 } 
             }
