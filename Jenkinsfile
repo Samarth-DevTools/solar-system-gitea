@@ -29,9 +29,8 @@ pipeline {
                             --out \\\'./\\\'
                             --format \\\'ALL\\\'
                             --prettyPrint''', odcInstallation: 'OWASP-depcheck-10'
-                        }      
-                    } 
-                }
+                    }      
+                } 
             }
         }
     }
