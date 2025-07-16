@@ -24,13 +24,11 @@ pipeline {
                 }
                 stage('OWASP Dep check') {
                     steps {
-                        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                            dependencyCheck additionalArguments: '''
-                                --scan ./ 
-                                --out ./ 
-                                --format ALL 
-                                --prettyPrint
-                            ''', odcInstallation: 'OWASP-depcheck-10'
+                        dependencyCheck additionalArguments: '''
+                            --scan \\\'./\\\'
+                            --out \\\'./\\\'
+                            --format \\\'ALL\\\'
+                            --prettyPrint''', odcInstallation: 'OWASP-depcheck-10'
                         }      
                     } 
                 }
