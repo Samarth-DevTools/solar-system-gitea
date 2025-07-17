@@ -18,7 +18,6 @@ pipeline {
         stage('Installing Deps') {
             options { timestamps() }
             steps {
-                sh 'sleep 100s'
                 sh 'npm install --no-audit'
             }
         }
