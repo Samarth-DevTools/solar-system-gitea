@@ -7,6 +7,8 @@ pipeline {
     environment {
         MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
         MONGO_DB_CREDS = credentials('mongo-db-creds')
+        MONGO_USERNAME = credentials('mongo-db-username')
+        MONGO_PASSWORD = credentials('mongo-db-password')
     }
 
     options {
@@ -41,10 +43,7 @@ pipeline {
                             --format ALL \
                             --prettyPrint
                         ''', odcInstallation: 'OWASP-depcheck-12'
-
-                        junit allowEmptyResults: true, stdioRetention: 'ALL', testResults: 'dependency-check-junit.xml'
                         
-                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html', reportName: 'Dependency CheckHTML Report', reportTitles: '', useWrapperFileDirectly: true])
                     }      
                 } 
             }
@@ -58,7 +57,6 @@ pipeline {
                 sh 'echo Mongodb-username: $MONGO_DB_CREDS_USR'
                 sh 'echo Mongodb-password: $MONGO_DB_CREDS_PSW'
                 sh 'npm test'
-                junit allowEmptyResults: true, stdioRetention: '', testResults: 'test-results.xml'
             }
         }
 
@@ -68,8 +66,20 @@ pipeline {
                     catchError(buildResult: 'SUCCESS', message: 'Don\'t worry it will be fixed in future releases', stageResult: 'UNSTABLE') {
                         sh 'npm run coverage'
                     }
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: 'coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code-Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             }
+        }
+    }
+
+    post {
+        always {
+            junit allowEmptyResults: true, stdioRetention: 'ALL', testResults: 'dependency-check-junit.xml'
+
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html', reportName: 'Dependency CheckHTML Report', reportTitles: '', useWrapperFileDirectly: true])
+
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: 'coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code-Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+
+            junit allowEmptyResults: true, stdioRetention: '', testResults: 'test-results.xml'
+
         }
     }
 }
