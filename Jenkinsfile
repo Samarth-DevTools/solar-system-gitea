@@ -4,9 +4,9 @@ pipeline {
     tools {
         nodejs 'nodejs-24-1-0'
     }
-    environment {
-        MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
-    }
+    // environment {
+    //     MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
+    // }
 
     stages{
         stage('Installing Deps') {
