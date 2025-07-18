@@ -3,13 +3,13 @@ pipeline {
 
     tools {
         nodejs 'nodejs-24-1-0'
-        sonarScanner 'SonarScanner'
     }
     environment {
         MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
         // MONGO_DB_CREDS = credentials('mongo-db-creds')
         MONGO_USERNAME = credentials('mongo-db-username')
         MONGO_PASSWORD = credentials('mongo-db-password')
+        SONAR_SCANNER_HOME = tools 'SonarScanner';
     }
 
     options {
@@ -74,10 +74,11 @@ pipeline {
             steps {
                 sh '''
                     echo "Sonar Scanner Home: $SONAR_SCANNER_HOME"
-                    $SONAR_SCANNER_HOME/bin/sonar-scanner \
+                    SONAR_SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectKey=Solar-System-Project \
+                        -Dsonar.sources=. \
                         -Dsonar.host.url=http://20.55.48.167:9000 \
-                        -Dsonar.token=sqp_40f98f16aeb8c1395a97411b67f49ead040a478d \
-                        -Dsonar.projectKey=Solar-System-Project
+                        -Dsonar.token=sqp_40f98f16aeb8c1395a97411b67f49ead040a478d
                 '''
             }
         }
